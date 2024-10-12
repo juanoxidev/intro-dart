@@ -32,15 +32,22 @@ void main() async{
   print('Inicio del programa');
   try{
     final value = await httpGetAsyncAwait('url'); // espera el resultado y una ves q lo tiene sigue con la ejecucion.
-    print(value);
-  } catch (err) { // cacheamos la excepcion si es q hay, sino se ejecutrara el codigo como se tiene previsto.
-    print('$err');
+    print('Exito : $value');
+    // on en una excepcion particular catch(err).
+  } on  Exception catch(err) {
+    print('Tenemos una Exception: $err');
+    // cacheamos un error no controlado
+  } catch (err) {
+    print('Opss algo terrible paso: $err');
+  } finally{
+    print('Fin del try catch');
   }
   print('Fin del programa');
 }
 // las funciones async simepre devulven un objeto Future (promesa);
 Future<String> httpGetAsyncAwait(String url) async{
   await Future.delayed(const Duration(seconds: 1)); // espera 1 seg
-  throw 'Error en la peticion'; //lanza una excepcion
+  throw Exception('No hay parametros en la url'); // lanza una excepcion
+  // throw 'Error en la peticion'; //lanza un error no controlado
   //return 'Tenemos un valor de la peticion'; // luego de 1 seg retorna este valor.
 }
